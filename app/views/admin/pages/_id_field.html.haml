@@ -1,0 +1,4 @@
+- if ['detail', 'both'].include? Radiant::Config['expose_page_ids']
+  %p
+    %label{:for => "page_id"} Page ID
+    %input.textbox{:id => "page_id", :size => 255, :type => :text, :value => @page.id, :disabled => 1, :style => "width: 99.5%"}
