@@ -46,5 +46,9 @@ module FindById::TagExtensions
     tag.expand
   end
   
+  desc "Renders the id of the current page"
+  tag "id" do |tag|
+    tag.locals.page.id
+  end
 
 end
