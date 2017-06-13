@@ -1,5 +1,5 @@
 module RadiantFindByIdTagExtension
-  VERSION     = "1.2.0"
+  VERSION     = "1.2.1"
   SUMMARY     = "Find By Id Tag for Radiant CMS"
   DESCRIPTION = "Adds support for an 'id' attribute to r:find"
   URL         = "http://github.com/jomz/radiant-find_by_id_tag-extension"
