@@ -1,4 +1,4 @@
-module FindById::TagExtension
+module FindById::TagExtensions
   include Radiant::Taggable
   
   desc %{

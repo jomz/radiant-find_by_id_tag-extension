@@ -6,7 +6,7 @@ class FindByIdTagExtension < Radiant::Extension
   url         RadiantFindByIdTagExtension::URL
 
   def activate
-    Page.send :include, FindById::TagExtension
+    Page.send :include, FindById::TagExtensions
     
     admin.pages.index.add :sitemap_head, "id_column_th", :before => "title_column_header"
     admin.pages.index.add :node, "id_column_td", :before => "title_column"
