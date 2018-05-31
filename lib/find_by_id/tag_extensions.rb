@@ -46,6 +46,28 @@ module FindById::TagExtensions
     tag.expand
   end
   
+  desc %{
+    Sets the scope to the individual aggregated page allowing you to
+    iterate through each of the listed paths.
+
+    *Usage*:
+
+    <pre><code><r:aggregate:each paths="/section1; /section2; /section3"> ... </r:aggregate:each></code></pre>
+  }
+  tag "aggregate:each" do |tag|
+    aggregates = []
+    # tag.locals.aggregated_pages = tag.locals.parent_ids.map {|p| Page.find(p)}
+    # Make this tag accept 'order' params. Ideally this would go in Radiant's standard_tags.rb
+    order = children_find_options(tag).delete(:order)
+    tag.locals.aggregated_pages = Page.find(tag.locals.parent_ids, :order => order)
+
+    tag.locals.aggregated_pages.each do |aggregate_page|
+      tag.locals.page = aggregate_page
+      aggregates << tag.expand
+    end
+    aggregates.flatten.join('')
+  end
+
   desc "Renders the id of the current page"
   tag "id" do |tag|
     tag.locals.page.id
