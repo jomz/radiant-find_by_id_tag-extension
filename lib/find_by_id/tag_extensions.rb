@@ -1,6 +1,6 @@
 module FindById::TagExtensions
   include Radiant::Taggable
-  
+
   desc %{
     Inside this tag all page related tags refer to the page found at the @path@ attribute.
     @path@s may be relative or absolute paths.
@@ -28,9 +28,9 @@ module FindById::TagExtensions
     Aggregates the children of multiple paths using the @paths@ or @ids@ attribute.
     Useful for combining many different sections/categories into a single
     feed or listing.
-    
+
     *Usage*:
-    
+
     <pre><code><r:aggregate paths="/section1; /section2; /section3"> ... </r:aggregate>
     <r:aggregate ids="4; 6; 7"> ... </r:aggregate></code></pre>
   }
@@ -45,7 +45,7 @@ module FindById::TagExtensions
     end
     tag.expand
   end
-  
+
   desc %{
     Sets the scope to the individual aggregated page allowing you to
     iterate through each of the listed paths.
@@ -59,8 +59,12 @@ module FindById::TagExtensions
     # tag.locals.aggregated_pages = tag.locals.parent_ids.map {|p| Page.find(p)}
     # Make this tag accept 'order' params. Ideally this would go in Radiant's standard_tags.rb
     order = children_find_options(tag).delete(:order)
-    tag.locals.aggregated_pages = Page.find(tag.locals.parent_ids, :order => order)
-
+    # if no order param was set, keep the order in which the ids were given
+    if tag.attr['order'].nil?
+      tag.locals.aggregated_pages = tag.locals.parent_ids.map{|pid| Page.find pid}
+    else
+      tag.locals.aggregated_pages = Page.find(tag.locals.parent_ids, :order => order)
+    end
     tag.locals.aggregated_pages.each do |aggregate_page|
       tag.locals.page = aggregate_page
       aggregates << tag.expand
